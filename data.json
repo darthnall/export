@@ -1,0 +1,212 @@
+{
+    "6922339433615": {
+        "name": "cake",
+        "barcode_path": "assets/cake/6922339433615.png",
+        "category": "baked good",
+        "image_path": "assets/cake/cake.png",
+        "price": "12.00"
+    },
+    "2098370756847": {
+        "name": "onions",
+        "barcode_path": "assets/onions/2098370756847.png",
+        "category": "produce",
+        "image_path": "assets/onions/onions.png",
+        "price": "1.00"
+    },
+    "1730746145428": {
+        "name": "spaghetti",
+        "barcode_path": "assets/spaghetti/1730746145428.png",
+        "category": "dry good",
+        "image_path": "assets/spaghetti/spaghetti.png",
+        "price": "4.00"
+    },
+    "7865705229285": {
+        "name": "tortilla",
+        "barcode_path": "assets/tortilla/7865705229285.png",
+        "category": "baked good",
+        "image_path": "assets/tortilla/tortilla.png",
+        "price": "2.00"
+    },
+    "4150093795133": {
+        "name": "bread",
+        "barcode_path": "assets/bread/4150093795133.png",
+        "category": "baked good",
+        "image_path": "assets/bread/bread.png",
+        "price": "3.00"
+    },
+    "8347414606186": {
+        "name": "mac-n-cheese",
+        "barcode_path": "assets/mac-n-cheese/8347414606186.png",
+        "category": "dry good",
+        "image_path": "assets/mac-n-cheese/mac-n-cheese.png",
+        "price": "2.00"
+    },
+    "9178776052408": {
+        "name": "potato",
+        "barcode_path": "assets/potato/9178776052408.png",
+        "category": "produce",
+        "image_path": "assets/potato/potato.png",
+        "price": "2.00"
+    },
+    "6798269889071": {
+        "name": "corn",
+        "barcode_path": "assets/corn/6798269889071.png",
+        "category": "produce",
+        "image_path": "assets/corn/corn.png",
+        "price": "2.00"
+    },
+    "6875973429387": {
+        "name": "cookies",
+        "barcode_path": "assets/cookies/6875973429387.png",
+        "category": "baked good",
+        "image_path": "assets/cookies/cookies.png",
+        "price": "6.00"
+    },
+    "2079588192849": {
+        "name": "cereal",
+        "barcode_path": "assets/cereal/2079588192849.png",
+        "category": "dry good",
+        "image_path": "assets/cereal/cereal.png",
+        "price": "5.00"
+    },
+    "6948221353397": {
+        "name": "yogurt",
+        "barcode_path": "assets/yogurt/6948221353397.png",
+        "category": "dairy",
+        "image_path": "assets/yogurt/yogurt.png",
+        "price": "5.00"
+    },
+    "5632785596840": {
+        "name": "chicken",
+        "barcode_path": "assets/chicken/5632785596840.png",
+        "category": "poultry",
+        "image_path": "assets/chicken/chicken.png",
+        "price": "10.00"
+    },
+    "1994088068757": {
+        "name": "steak",
+        "barcode_path": "assets/steak/1994088068757.png",
+        "category": "meat",
+        "image_path": "assets/steak/steak.png",
+        "price": "39.00"
+    },
+    "6249821507549": {
+        "name": "milk",
+        "barcode_path": "assets/milk/6249821507549.png",
+        "category": "dairy",
+        "image_path": "assets/milk/milk.png",
+        "price": "3.00"
+    },
+    "6862488346704": {
+        "name": "eggs",
+        "barcode_path": "assets/eggs/6862488346704.png",
+        "category": "poultry",
+        "image_path": "assets/eggs/eggs.png",
+        "price": "3.00"
+    },
+    "3512303559637": {
+        "name": "apple",
+        "barcode_path": "assets/apple/3512303559637.png",
+        "category": "produce",
+        "image_path": "assets/apple/apple.png",
+        "price": "1.00"
+    },
+    "2461632909778": {
+        "name": "cheese",
+        "barcode_path": "assets/cheese/2461632909778.png",
+        "category": "dairy",
+        "image_path": "assets/cheese/cheese.png",
+        "price": "2.00"
+    },
+    "7019875872462": {
+        "name": "rice",
+        "barcode_path": "assets/rice/7019875872462.png",
+        "category": "dry good",
+        "image_path": "assets/rice/rice.png",
+        "price": "1.00"
+    },
+    "3636150181091": {
+        "name": "crackers",
+        "barcode_path": "assets/crackers/3636150181091.png",
+        "category": "dry good",
+        "image_path": "assets/crackers/crackers.png",
+        "price": "2.00"
+    },
+    "6796948439203": {
+        "name": "avocado",
+        "barcode_path": "assets/avocado/6796948439203.png",
+        "category": "produce",
+        "image_path": "assets/avocado/avocado.png",
+        "price": "7.00"
+    },
+    "8943344781087": {
+        "name": "bagel",
+        "barcode_path": "assets/bagel/8943344781087.png",
+        "category": "baked good",
+        "image_path": "assets/bagel/bagel.png",
+        "price": "3.00"
+    },
+    "4006782823529": {
+        "name": "hot-dogs",
+        "barcode_path": "assets/hot-dogs/4006782823529.png",
+        "category": "meat",
+        "image_path": "assets/hot-dogs/hot-dogs.png",
+        "price": "6.00"
+    },
+    "6434471805392": {
+        "name": "banana",
+        "barcode_path": "assets/banana/6434471805392.png",
+        "category": "produce",
+        "image_path": "assets/banana/banana.png",
+        "price": "1.00"
+    },
+    "3874276327454": {
+        "name": "pizza",
+        "barcode_path": "assets/pizza/3874276327454.png",
+        "category": "dry good",
+        "image_path": "assets/pizza/pizza.png",
+        "price": "10.00"
+    },
+    "3100354629074": {
+        "name": "ketchup",
+        "barcode_path": "assets/ketchup/3100354629074.png",
+        "category": "condiment",
+        "image_path": "assets/ketchup/ketchup.png",
+        "price": "3.00"
+    },
+    "8566379354431": {
+        "name": "strawberry",
+        "barcode_path": "assets/strawberry/8566379354431.png",
+        "category": "produce",
+        "image_path": "assets/strawberry/strawberry.png",
+        "price": "4.00"
+    },
+    "4181464947134": {
+        "name": "peanut-butter",
+        "barcode_path": "assets/peanut-butter/4181464947134.png",
+        "category": "condiment",
+        "image_path": "assets/peanut-butter/peanut-butter.png",
+        "price": "3.00"
+    },
+    "3306455968047": {
+        "name": "juice",
+        "barcode_path": "assets/juice/3306455968047.png",
+        "category": "beverage",
+        "image_path": "assets/juice/juice.png",
+        "price": "5.00"
+    },
+    "6448017156428": {
+        "name": "fish",
+        "barcode_path": "assets/fish/6448017156428.png",
+        "category": "meat",
+        "image_path": "assets/fish/fish.png",
+        "price": "12.00"
+    },
+    "2392080018401": {
+        "name": "soup",
+        "barcode_path": "assets/soup/2392080018401.png",
+        "category": "soup",
+        "image_path": "assets/soup/soup.png",
+        "price": "4.00"
+    }
+}
