@@ -11,25 +11,6 @@ from PyQt5.QtGui import QPalette, QBrush
 from libs.buttons.button import make_button
 from version import get_version
 
-'''
-def touch(logpath):
-    with open(logpath, 'w'):
-        os.utime(logpath, None)
-
-
-current_datetime = datetime.datetime.now()
-logpath = f"logs/{current_datetime}.log"
-touch(logpath)
-
-logging.basicConfig(level=logging.DEBUG,
-                    filename=logpath,
-                    format='%(asctime)s :: %(levelname)s :: %(message)s'
-                    )
-version_number = get_version()
-logging.info('--- Application boot ---\n\nMOTD: \n-----\n"Welcome to ShowBox Exhibits POS System"\n-----\n')
-logging.info(f'Version number {version_number} loaded')
-'''
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
@@ -63,12 +44,10 @@ class BackgroundImage(QtWidgets.QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        # Pull image
         self.pixmap = QtGui.QPixmap('assets/main-screen/main-screen.png')
         self.setAutoFillBackground(True)
 
     def resizeEvent(self, event):
-        # Resize background when window is altered
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(self.pixmap)
         palette.setBrush(QtGui.QPalette.Background, brush)
@@ -80,75 +59,118 @@ class CheckOutWindow(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.price = 0.0
+        self.price   = 0.0
         self.payment = 0.0
-        self.setGeometry(560, 140, 400, 400)
-        self.setWindowTitle('Checkout Window')
+        self.font = QtGui.QFont()
+        self.font.setPointSize(32)
 
-        self.message = QtWidgets.QLabel("Thank you for shopping with us!", self)
+        self.message = QtWidgets.QLabel("Select payment option", self)
+        self.message.setFont(self.font)
+        self.message.setStyleSheet("color: #000000;")
+        self.message.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.total_price = QtWidgets.QLabel(f"Total: ${self.price:.2f}", self)
+        #self.total_price = QtWidgets.QLabel(f"Your total: ${self.price:.2f}", self)
+        #self.total_price.setStyleSheet("color: #000000;")
+        #self.total_price.setFont(self.font)
 
-        self.pay_button = QtWidgets.QPushButton("Pay", self)
-        self.pay_button.clicked.connect(self.open_keypad)
+        self.pay_button = QtWidgets.QPushButton("Cash", self)
+        self.pay_button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
+        self.pay_button.setFont(self.font)
+        self.pay_button.setFixedHeight(50)
+        self.pay_button.setFixedWidth(350)
 
         self.keypad = QtWidgets.QDialog(self)
-        layout = QtWidgets.QGridLayout(self.keypad)
 
+        inner_vbox   = QtWidgets.QVBoxLayout()
+        self.thanks = QtWidgets.QLabel(f"Input cash amount")
+        self.thanks.setAlignment(QtCore.Qt.AlignCenter)
+        self.thanks.setFont(self.font)
+        inner_vbox.addWidget(self.thanks)
+        self.keypad_total = QtWidgets.QLabel(f"Amount due: ${self.price:.2f}", self)
+        self.keypad_total.setAlignment(QtCore.Qt.AlignCenter)
+        self.keypad_total.setFont(self.font)
+        inner_vbox.addWidget(self.keypad_total)
+        inner_grid   = QtWidgets.QGridLayout()
+        layout       = QtWidgets.QVBoxLayout(self.keypad)
+        
         self.input_display = QtWidgets.QLineEdit(self.keypad)
-        layout.addWidget(self.input_display, 0, 0, 1, 4)  # place it at the top row
-        keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'Enter', 'Clear']
-        positions = [(i, j) for i in range(1, 5) for j in range(3)] + [(5, 0, 1, 3), (6, 0, 1, 3)]
+        self.input_display.setFont(self.font)
+        inner_grid.addWidget(self.input_display, 0, 0, 1, 4)
+        keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'C', '0', '$']
+        positions = [(i, j) for i in range(1, 5) for j in range(3)]
         for position, key in zip(positions, keys):
-            if key == 'Clear':
-                button = QtWidgets.QPushButton(key)
+            button = QtWidgets.QPushButton(key)
+            button.setFixedHeight(90)
+            button.setFixedWidth(90)
+            font = QtGui.QFont()
+            font.setPointSize(28)
+            button.setFont(font)
+            if key == 'C':
                 button.clicked.connect(self.clear_payment)
-            elif key == 'Enter':
-                button = QtWidgets.QPushButton(key)
+                button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
+            elif key == '$':
                 button.clicked.connect(self.calculate_change)
-            else:  # digit key
-                button = QtWidgets.QPushButton(key)
+                button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
+            else:
                 button.clicked.connect(self.digit_pressed)
-                button.setFixedHeight(60)  # increase button size
-                button.setFixedWidth(60)
-                button.setStyleSheet("font-size: 20px")  # increase font size
-            layout.addWidget(button, *position)
+                button.setStyleSheet("background-color: #FFFFFF; color: #000000;")
+            inner_grid.addWidget(button, *position)
 
+        layout.addLayout(inner_vbox)
+        layout.addLayout(inner_grid)
         self.keypad.setLayout(layout)
+        self.keypad.setStyleSheet("background-color: #52B648;")
+
         self.keypad.hide()
 
         self.change_label = QtWidgets.QLabel("Change: $0.00", self)
+        self.change_label.setStyleSheet("color: #000000;")
+        self.change_label.setFont(self.font)
+        self.change_label.setAlignment(QtCore.Qt.AlignCenter)
 
         self.close_button = QtWidgets.QPushButton("Close", self)
+        self.close_button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
         self.close_button.clicked.connect(self.close_checkout_window)
-        
+        self.close_button.setFixedHeight(50)
+        self.close_button.setFixedWidth(350)
+        self.close_button.setFont(self.font)
+        self.pay_button.clicked.connect(self.open_keypad)
+
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.addWidget(self.message)
-        self.layout.addWidget(self.total_price)
+        #self.layout.addWidget(self.total_price)
         self.layout.addWidget(self.pay_button)
         self.layout.addWidget(self.change_label)
         self.layout.addWidget(self.close_button)
         self.setLayout(self.layout)
+
+        self.setStyleSheet("background-color: #52B648;")
         
         self.hide()
 
     def open_checkout_window(self, price):
         self.price = price
-        self.total_price.setText(f"Total: ${self.price:.2f}")
+        #self.total_price.setText(f"Total: ${self.price:.2f}")
+        self.message.setText("Select payment option")
+        self.pay_button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
+        self.pay_button.setEnabled(True)
+        self.close_button.setStyleSheet("background-color: #444654; color: #000000;")
+        self.close_button.setEnabled(False)
         self.show()
 
     def close_checkout_window(self):
         self.hide()
         self.windowClosed.emit()
 
+    def clear_payment(self):
+        self.payment = 0.0
+        self.input_display.clear()
+
     def open_keypad(self):
+        print("pay_clicked event recieved in open_keypad method.")
         self.parent().barcodeInput.setAlwaysFocus(False)
         self.keypad.exec_()
-
-    def digit_pressed(self):
-        button = self.sender()
-        new_text = self.input_display.text() + button.text()
-        self.input_display.setText(new_text)
+        self.clear_payment
 
     def calculate_change(self):
         try:
@@ -160,46 +182,22 @@ class CheckOutWindow(QtWidgets.QDialog):
             QtWidgets.QMessageBox.warning(self, "Payment Error", "Invalid payment.")
             return
         change = self.payment - self.price
+        self.message.setText("Thank you! Collect change")
         self.change_label.setText(f"Change: ${change:.2f}")
+        self.pay_button.setEnabled(False)
+        self.pay_button.setStyleSheet("background-color: #444654; color: #000000;")
+        self.close_button.setEnabled(True)
+        self.close_button.setStyleSheet("background-color: #FCDF1C; color: #000000;")
         self.keypad.hide()
-
-    def clear_payment(self):
-        self.payment = 0.0
-        self.input_display.clear()
-
-    def open_checkout_window(self, price):
-        self.price = price
-        self.total_price.setText(f"Total: ${self.price:.2f}")
-        self.show()
-
-    def close_checkout_window(self):
-        self.hide()
-        self.windowClosed.emit()
-
-    def open_keypad(self):
-        self.keypad.exec_()
 
     def digit_pressed(self):
         button = self.sender()
-        if button.text() == '.' and '.' in self.input_display.text():
-            return
         new_text = self.input_display.text() + button.text()
         try:
             self.payment = float(new_text)
         except ValueError:
             self.payment = 0.0
-
-    def clear_payment(self):
-        self.payment = 0.0
-        self.input_display.clear()
-
-    def calculate_change(self):
-        if self.payment < self.price:
-            QtWidgets.QMessageBox.warning(self, "Payment Error", "Insufficient payment.")
-            return
-        change = self.payment - self.price
-        self.change_label.setText(f"Change: ${change:.2f}")
-        self.keypad.hide()
+        self.input_display.setText(new_text)
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, data):
@@ -300,14 +298,12 @@ class MainWindow(QtWidgets.QMainWindow):
         super().resizeEvent(event)
 
     def init_buttons(self):
-        # Create button
         self.deleteLastButton = make_button(self, "deleteLast")
         self.clearAllButton   = make_button(self, "clearAll")
         self.checkOutButton   = make_button(self, "checkOut")
         self.closeButton      = make_button(self, "close")
         #self.secretMenuButton = make_button(self, "secretMenu")
 
-        # Map button function
         self.deleteLastButton.clicked.connect(self.delete_last)
         self.clearAllButton.clicked.connect(self.clear_all)
         self.checkOutButton.clicked.connect(self.check_out)
@@ -316,20 +312,16 @@ class MainWindow(QtWidgets.QMainWindow):
         #self.secretMenuButton.clicked.connect(self.activate_secret_menu)
 
     def scan_item(self):
-        # logging.debug(f'Recieved input: {self.barcodeInput.text()}')
         scannerInput = self.barcodeInput.text()
         barcode = ''.join(char for char in scannerInput if char.isdigit())
-        # logging.debug(f'Input modified from {scannerInput} -> {barcode}')
         if barcode in self.data:
             item_name = self.data[barcode]['name']
             path = self.data[barcode]['image_path']
             price = self.data[barcode]['price']
-            #logging.debug(f'Barcode scanned: {barcode} :: Item name: {item_name}')
             try:
                 pixmap = QtGui.QPixmap(path)
                 self.itemScannedImage.setPixmap(pixmap.scaled(700, 700, QtCore.Qt.KeepAspectRatio))
             except Exception:
-                #logging.warning(f'Image could not be found for {barcode} :: {item_name}')
                 pass
             self.itemScanned.setText(item_name.upper())
             self.itemScanned.setStyleSheet(style)
@@ -339,11 +331,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 pass
             else:
                 self.insert_row(itemData)
-            # logging.info(f'Successful scan flow achieved: {barcode} :: {item_name}')
         else:
-            # logging.warning(f'Unrecgonized barcode: "{barcode}"')
-            print("Nice")
-        self.barcodeInput.clear()
+            self.barcodeInput.clear()
 
     def item_exists(self, itemData):
         for row in range(self.itemTableModel.rowCount()):
@@ -444,7 +433,6 @@ def main(DEBUG_MODE_ENABLED=False):
     if DEBUG_MODE_ENABLED:
         app = QtWidgets.QApplication([])
         window = MainWindow(data)
-        window.showFullScreen()
         window.show()
     else:
         app = QtWidgets.QApplication([])
