@@ -168,6 +168,9 @@ class CheckOutWindow(QtWidgets.QDialog):
 
     def open_keypad(self):
         print("pay_clicked event recieved in open_keypad method.")
+        self.keypad_total.setText(f"Amount due: ${self.price:.2f}")
+        self.change_label.setText(f"Change: $0.00")
+        self.input_display.setText("")
         self.parent().barcodeInput.setAlwaysFocus(False)
         self.keypad.exec_()
         self.clear_payment
@@ -208,20 +211,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.itemData = []
         self.background = BackgroundImage(self)
         self.background.setGeometry(self.rect())
-        '''
-        self.scanIndicator = QtWidgets.QLabel(self)
-        self.scanIndicator.setStyleSheet("""
-        color: red;
-        border-style: flat;
-        border-width: 5px;
-        font-size: 36px;
-        """)
-        self.scanIndicator.setGeometry(170, 720, 561, 50)
-        self.scanIndicator.setText("Scanning.")
-        self.scanIndicatorTimer = QtCore.QTimer()
-        self.scanIndicatorTimer.timeout.connect(self.scanning_indicator)
-        self.scanIndicatorTimer.start(1000)
-        '''
 
         self.barcodeInput = AlwaysFocusedLineEdit(self)
         self.barcodeInput.setGeometry(10, 10, 200, 40)
@@ -256,14 +245,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.background.lower()
         self.setCentralWidget(self.background)
-        '''
-        def scanning_indicator(self):
-            text = self.scanIndicator.text()
-            if text == 'Scanning...':
-                self.scanIndicator.setText('Scanning.')
-            else:
-                self.scanIndicator.setText(text + '.')
-        '''
 
         self.setEnabled(True)
     def disable_main_window(self):
@@ -313,6 +294,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def scan_item(self):
         scannerInput = self.barcodeInput.text()
+        print(f"Input :: {scannerInput}")
         barcode = ''.join(char for char in scannerInput if char.isdigit())
         if barcode in self.data:
             item_name = self.data[barcode]['name']
@@ -333,6 +315,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.insert_row(itemData)
         else:
             self.barcodeInput.clear()
+        self.barcodeInput.clear()
 
     def item_exists(self, itemData):
         for row in range(self.itemTableModel.rowCount()):
@@ -344,12 +327,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 old_price = old_price_item.data(Qt.DisplayRole)
                 new_qty = QtGui.QStandardItem(str(int(old_qty) + 1))
                 self.set_font(new_qty)
-                new_price = QtGui.QStandardItem(str(round(float(old_price) + float(itemData[2]), 2)))
+                new_price = QtGui.QStandardItem(f"{float(float(old_price) + float(itemData[2])):.2f}")
                 self.set_font(new_price)
                 self.itemTableModel.setItem(row, 0, new_qty)
                 self.itemTableModel.setItem(row, 2, new_price)
                 self.update_total()
-                logging.debug(f"Changed table values according to {itemData}")
+                print(f"Changed table values according to {itemData}")
                 return True
         return False
 
@@ -364,7 +347,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.itemTableModel.setItem(row, column, item)
         self.itemTable.verticalHeader().setDefaultSectionSize(30)
         self.update_total()
-        logging.debug(f"Added to table: {itemData}")
+        print(f"Added to table: {itemData}")
         self.log_table_state()
 
     def update_total(self):
@@ -390,7 +373,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     old_qty = old_qty_item.data(Qt.DisplayRole)
                     old_price = old_price_item.data(Qt.DisplayRole)
                     new_qty_val = int(old_qty) - 1
-                    new_price_val = round(float(old_price) - float(lastItemPrice), 2)
+                    new_price_val = f"{(float(old_price) - float(lastItemPrice)):.2f}"
                     if new_qty_val == 0:
                         self.itemTableModel.removeRow(row)
                     else:
@@ -426,7 +409,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def log_table_state(self):
         for row in range(self.itemTableModel.rowCount()):
             row_data = [self.itemTableModel.item(row, column).data(Qt.DisplayRole) for column in range(self.itemTableModel.columnCount())]
-            logging.debug(f"Row {row} data: {row_data}")
+            print(f"Row {row} data: {row_data}")
 
 
 def main(DEBUG_MODE_ENABLED=False):
